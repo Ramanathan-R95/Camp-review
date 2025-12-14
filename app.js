@@ -22,11 +22,11 @@ app.get("/",(req,res)=>{
     res.render("home.ejs") ;
 });
 
-app.get("/makecampground",async (req,res)=>{
-    const r1 = new CampgroundModel({title:"beach camping"});
-    await r1.save() ;
-    res.send(r1) ;
-});
+app.get("/campgrounds",async (req,res)=>{
+    const campGrounds = await CampgroundModel.find({});
+
+    res.render("campgrounds/index.ejs",{campGrounds});
+})
 
 
 app.listen(3000,()=>{
