@@ -26,6 +26,12 @@ app.get("/campgrounds",async (req,res)=>{
     const campGrounds = await CampgroundModel.find({});
 
     res.render("campgrounds/index.ejs",{campGrounds});
+});
+
+app.get("/campgrounds/:id",async (req,res)=>{
+    const {id} = req.params ;
+    const camp = await CampgroundModel.findById(id);
+    res.render("campgrounds/show.ejs",{camp});
 })
 
 
