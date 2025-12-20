@@ -65,6 +65,13 @@ app.put("/campgrounds/:id",async (req,res)=>{
     res.redirect(`/campgrounds/${req.params.id}`);
 })
 
+app.delete("/campgrounds/:id",async (req,res)=>{
+    const {id} = req.params ;
+    await CampgroundModel.findByIdAndDelete(id);
+    res.redirect("/campgrounds");
+
+})
+
 
 app.listen(3000,()=>{
     console.log("Server Initiated") ;
