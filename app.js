@@ -4,6 +4,7 @@ const path = require("path") ;
 const mongoose = require("mongoose") ;
 const methodOverride = require("method-override");
 const CampgroundModel = require("./models/campground.js") ;
+const ejsMate = require("ejs-mate") ;
 
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     .then(()=>{
@@ -15,7 +16,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     })
 
 
-
+app.engine("ejs",ejsMate) ;
 app.set("view engine","ejs") ;
 app.set("views",path.join(__dirname,"views")) ;
 app.use(express.urlencoded({extended:true}));
