@@ -19,11 +19,15 @@ const sample = (arr)=>{
 const seedDb = async ()=>{
     await CampgroundModel.deleteMany({});
 
-    for (let i = 1 ; i < 70 ; i++){
+    for (let i = 1 ; i < 40 ; i++){
+        let price = Math.floor(Math.random()*20000) + 1000 ;
         let num = Math.floor(Math.random()* 1000) ;
         const camp = new CampgroundModel({
             title :`${sample(places)} ${sample(descriptors)}` ,
-            location : `${cities[num].city} ${cities[num].state}`
+            location : `${cities[num].city} ${cities[num].state}`,
+            image :`https://picsum.photos/400?random=${Math.random()}`,
+            price ,
+            description :"Some quick example text to build on the card title and make up the bulk of the cards content."
         });
         await camp.save();
 
