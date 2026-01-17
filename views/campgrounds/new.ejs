@@ -1,23 +1,27 @@
 <%- layout("layouts/BoilerPlate.ejs") %>
 <div class="container ">
     <h1 class="text-center">Create Campground</h1>
-    <form  action="/campgrounds" method="post">
+    <form  action="/campgrounds" method="post" class="needs-validation" novalidate>
         <div>
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="campground[title]">
+                <input class="form-control" type="text" id="title" name="campground[title]"required>
+                <div class="valid-feedback">Looks nice</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <input class="form-control" type="text" id="description" name="campground[description]">
+                <input class="form-control" type="text" id="description" name="campground[description]"required>
+                <div class="valid-feedback">Looks nice</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image url</label>
-                <input class="form-control" type="text" id="image" name="campground[image]">
+                <input class="form-control" type="text" id="image" name="campground[image]"required>
+                <div class="valid-feedback">Looks nice</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Price</label>
-                <input class="form-control" type="number" id="price" name="campground[price]">
+                <input class="form-control" type="number" id="price" name="campground[price]" required>
+                <div class="valid-feedback">Looks nice</div>
             </div>
         </div>
         <button class="btn btn-primary">ADD CAMPGROUND</button>
