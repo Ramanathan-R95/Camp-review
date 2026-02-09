@@ -1,5 +1,6 @@
 const express = require("express") ;
 const app = express() ;
+const Joi = require("joi") ;
 const path = require("path") ;
 const mongoose = require("mongoose") ;
 const methodOverride = require("method-override");
@@ -7,6 +8,7 @@ const CampgroundModel = require("./models/campground.js") ;
 const ejsMate = require("ejs-mate") ;
 const wrapAsync = require("./utilities/WrapAsync.js") ;
 const ExpressError = require("./utilities/ExpressError.js") ;
+const {campSchema} = require("./valSchema/Schemas.js") ;
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     .then(()=>{
         console.log("db connected ") ;
@@ -25,6 +27,15 @@ app.use(methodOverride("_method"));
 
 
 
+const campValidate = (req,res,next)=>{
+    const {error} = campSchema.validate(req.body) ;
+
+    if(error){
+        const msg = error.details.map(ele => ele.message).join(",") ;
+        next(new ExpressError(msg,400)) ;
+        
+    }
+    else next();}
 
 
 app.get("/",(req,res)=>{
@@ -49,9 +60,8 @@ app.get("/campgrounds/:id",wrapAsync(async (req,res,next)=>{
 }));
 
 
-app.post("/campgrounds",wrapAsync(async(req,res,next)=>{
+app.post("/campgrounds",campValidate,wrapAsync(async(req,res,next)=>{
     const campground = req.body.campground ;
-    if(!campground) throw new ExpressError("Invalid Data" , 500);
     const camp = new CampgroundModel(campground) ;
     await camp.save();
     res.redirect(`/campgrounds/${camp._id}`) ;
@@ -60,10 +70,11 @@ app.post("/campgrounds",wrapAsync(async(req,res,next)=>{
 app.get("/campgrounds/:id/edit",wrapAsync(async (req,res,next)=>{
     const id = req.params.id ;
     const camp = await CampgroundModel.findById(id);
+    if(!camp) throw new ExpressError("No camps ",404) ;
     res.render("campgrounds/edit.ejs",{camp});
 }));
 
-app.put("/campgrounds/:id",wrapAsync(async (req,res,next)=>{
+app.put("/campgrounds/:id",campValidate,wrapAsync(async (req,res,next)=>{
     const campground = req.body.campground ;
     if(!campground) throw new ExpressError("Invalid Data" , 500);
     const c = await CampgroundModel.findByIdAndUpdate(req.params.id,{...campground});
