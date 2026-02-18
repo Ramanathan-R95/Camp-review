@@ -4,23 +4,29 @@
 
 <div class="container mb-5">
     <h1 class="text-center"><%= camp.title %></h1>
-    <div class="card" >
-        <img src="<%= camp.image %>" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title card-header"><%= camp.title %></h5>
-            
 
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><%= camp.description %></li>
-                <li class="list-group-item"><%= camp.location %></li>
-                <li class="list-group-item"><%= camp.price %></li>
-            </ul>
-            
-            <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-warning">EDIT</a>
-            <form class="d-inline" action="/campgrounds/<%= camp.id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">DELETE</button>
-            </form>
-            <a href="/campgrounds" class="btn btn-info">All campgrounds</a>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" >
+                <img src="<%= camp.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title card-header"><%= camp.title %></h5>
+                    
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><%= camp.description %></li>
+                        <li class="list-group-item"><%= camp.location %></li>
+                        <li class="list-group-item"><%= camp.price %></li>
+                    </ul>
+                    
+                    <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-warning">EDIT</a>
+                    <form class="d-inline" action="/campgrounds/<%= camp.id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">DELETE</button>
+                    </form>
+                    <a href="/campgrounds" class="btn btn-info">All campgrounds</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
