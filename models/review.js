@@ -17,14 +17,7 @@ const ReviewSchema = Schema({
 }) ;
 
 
-ReviewSchema.post("findOneAndDelete",async (review)=>{
-    const id = review.campground ;
-    const camp = await CampgroundModel.findByIdAndUpdate(id,{$pull:{reviews :{$in : [id]}}}) ;
 
-
-
-
-}) ;
 
 
 const ReviewModel = mongoose.model("Review",ReviewSchema) ;
