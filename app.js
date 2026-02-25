@@ -12,7 +12,6 @@ const ExpressError = require("./utilities/ExpressError.js") ;
 const {campSchema,reviewSchema} = require("./valSchema/Schemas.js") ;
 const campRoutes = require("./routes/campground.js") ;
 const reviewRoutes = require("./routes/review.js") ;
-
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
     .then(()=>{
         console.log("db connected ");
@@ -28,6 +27,7 @@ app.set("view engine","ejs") ;
 app.set("views",path.join(__dirname,"views")) ;
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname,"public"))) ;
 
 
 
