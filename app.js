@@ -13,6 +13,8 @@ const {campSchema,reviewSchema} = require("./valSchema/Schemas.js") ;
 const campRoutes = require("./routes/campground.js") ;
 const reviewRoutes = require("./routes/review.js") ;
 const session = require("express-session") ;
+const flash = require("connect-flash") ;
+
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
     .then(()=>{
         console.log("db connected ");
@@ -40,7 +42,14 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname,"public"))) ;
 
 app.use(session(sessionSchema))
+app.use(flash());
 
+
+app.use((req,res,next)=>{
+    res.locals.msg = req.flash("success") ;
+    res.locals.error = req.flash("error") ;
+    next();
+})
 
 
 
