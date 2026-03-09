@@ -14,7 +14,10 @@ const campRoutes = require("./routes/campground.js") ;
 const reviewRoutes = require("./routes/review.js") ;
 const session = require("express-session") ;
 const flash = require("connect-flash") ;
-
+const User = require("./models/user.js") ;
+const passport = require("passport");
+const LocalStrategy = require("passport-local") ;
+const userRoutes = require("./routes/login.js") ;
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
     .then(()=>{
         console.log("db connected ");
@@ -45,16 +48,29 @@ app.use(session(sessionSchema))
 app.use(flash());
 
 
+
+app.use(passport.initialize()) ;
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate())) ;
+passport.serializeUser(User.serializeUser()) ;
+
+passport.deserializeUser(User.deserializeUser()) ;
+
 app.use((req,res,next)=>{
+    res.locals.user = req.user ;
     res.locals.msg = req.flash("success") ;
     res.locals.error = req.flash("error") ;
     next();
 })
 
 
-
+app.use("/",userRoutes) ;
 app.use("/campgrounds",campRoutes) ;
 app.use("/campgrounds/:id/review",reviewRoutes) ;
+
+
+
 
 app.get("/",(req,res)=>{
     res.render("home.ejs") ;
