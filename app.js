@@ -17,7 +17,7 @@ const flash = require("connect-flash") ;
 const User = require("./models/user.js") ;
 const passport = require("passport");
 const LocalStrategy = require("passport-local") ;
-const userRoutes = require("./routes/login.js") ;
+const userRoutes = require("./routes/user.js") ;
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
     .then(()=>{
         console.log("db connected ");
