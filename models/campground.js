@@ -8,7 +8,11 @@ const CampgroundSchema = new Schema({
     image : String ,
     description : String ,
     location : String ,
-    reviews : [{type : mongoose.Schema.Types.ObjectId , ref : "Review"}]
+    reviews : [{type : mongoose.Schema.Types.ObjectId , ref : "Review"}],
+    author : {
+        type :Schema.Types.ObjectId ,
+        ref : "User" 
+    }
 }) ;
 CampgroundSchema.post("findOneAndDelete",async (data)=>{
     if(data.reviews) {
