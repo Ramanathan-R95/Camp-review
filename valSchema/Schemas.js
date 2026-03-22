@@ -5,9 +5,9 @@ module.exports.campSchema = Joi.object({
             price :Joi.number().min(0).required(),
             description :Joi.string().required(),
             location :Joi.string().required(),
-            image:Joi.string().required()
 
-        }).required()
+        }).required(),
+        deleteImages:Joi.array()
     });
 module.exports.reviewSchema = Joi.object({
     review : Joi.object({

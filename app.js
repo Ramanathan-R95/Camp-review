@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express") ;
 const app = express() ;
 const Joi = require("joi") ;
@@ -17,7 +19,7 @@ const flash = require("connect-flash") ;
 const User = require("./models/user.js") ;
 const passport = require("passport");
 const LocalStrategy = require("passport-local") ;
-const userRoutes = require("./routes/login.js") ;
+const userRoutes = require("./routes/user.js") ;
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
     .then(()=>{
         console.log("db connected ");
@@ -83,6 +85,7 @@ app.get("/",(req,res)=>{
 app.all(/(.*)/,(req,res,next)=>{
     next(new ExpressError("Page not found",404)) ;
 });
+
 
 app.use((err,req,res,next)=>{
     if(!err.message) err.message = "Something went wrong" ;
