@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express") ;
 const app = express() ;
 const Joi = require("joi") ;
@@ -83,6 +85,7 @@ app.get("/",(req,res)=>{
 app.all(/(.*)/,(req,res,next)=>{
     next(new ExpressError("Page not found",404)) ;
 });
+
 
 app.use((err,req,res,next)=>{
     if(!err.message) err.message = "Something went wrong" ;

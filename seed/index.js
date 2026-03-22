@@ -25,7 +25,10 @@ const seedDb = async ()=>{
         const camp = new CampgroundModel({
             title :`${sample(places)} ${sample(descriptors)}` ,
             location : `${cities[num].city} ${cities[num].state}`,
-            image :`https://picsum.photos/400?random=${Math.random()}`,
+            images :[{url:`https://picsum.photos/400?random=${Math.random()}`,filename:`image${Math.floor(Math.random()* 500)}`},
+                {url:`https://picsum.photos/400?random=${Math.random()}`,filename:`image${Math.floor(Math.random()* 500)}`}
+
+            ],
             price ,
             description :"Some quick example text to build on the card title and make up the bulk of the cards content.",
             author :'69aecea5cc65e9b84c96cea8' 
