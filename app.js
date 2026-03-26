@@ -1,26 +1,28 @@
 require("dotenv").config();
-
 const express = require("express") ;
-const app = express() ;
+const app = express();
 const Joi = require("joi") ;
 const path = require("path") ;
-const mongoose = require("mongoose") ;
+const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const CampgroundModel = require("./models/campground.js") ;
-const ReviewModel = require("./models/review.js") ;
-const ejsMate = require("ejs-mate") ;
+const ReviewModel = require("./models/review.js");
+const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utilities/WrapAsync.js") ;
 const ExpressError = require("./utilities/ExpressError.js") ;
 const {campSchema,reviewSchema} = require("./valSchema/Schemas.js") ;
 const campRoutes = require("./routes/campground.js") ;
 const reviewRoutes = require("./routes/review.js") ;
 const session = require("express-session") ;
-const flash = require("connect-flash") ;
-const User = require("./models/user.js") ;
+const flash = require("connect-flash");
+const User = require("./models/user.js");
 const passport = require("passport");
-const LocalStrategy = require("passport-local") ;
-const userRoutes = require("./routes/user.js") ;
-mongoose.connect("mongodb://127.0.0.1:27017/CampReview") 
+const LocalStrategy = require("passport-local");
+const userRoutes = require("./routes/user.js");
+
+
+
+mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     .then(()=>{
         console.log("db connected ");
     })
@@ -39,7 +41,7 @@ sessionSchema = {
         maxAge : 1000 * 60 * 60 * 24 * 7
     }
 }
-app.engine("ejs",ejsMate) ;
+app.engine("ejs",ejsMate);
 app.set("view engine","ejs") ;
 app.set("views",path.join(__dirname,"views")) ;
 app.use(express.urlencoded({extended:true}));
