@@ -1,2 +1,57 @@
 <%- layout("layouts/BoilerPlate.ejs") %>
-<h1>Home</h1>
+<!-- HERO SECTION -->
+
+<link rel="stylesheet" href="/stylesheets/home.css">
+
+
+<section class="hero d-flex align-items-center text-center text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-3">YelpCamp</h1>
+        <p class="lead mb-4">
+            Discover and share the best camping spots around the world.
+        </p>
+        <a href="/campgrounds" class="btn btn-lg btn-light px-4 me-2"> Explore Camps</a>
+        <a href="/campgrounds/new" class="btn btn-lg btn-outline-light px-4">Add Camp</a>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features py-5">
+    <div class="container text-center">
+        <h2 class="mb-5 fw-bold">Why YelpCamp?</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm">
+                    <i class="bi bi-geo-alt display-5 mb-3"></i>
+                    <h5>Explore Locations</h5>
+                    <p>Find amazing campgrounds across the globe with ease.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm">
+                    <i class="bi bi-camera display-5 mb-3"></i>
+                    <h5>Share Experiences</h5>
+                    <p>Upload photos and reviews to help others discover places.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm">
+                    <i class="bi bi-people display-5 mb-3"></i>
+                    <h5>Join Community</h5>
+                    <p>Connect with fellow campers and adventurers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="cta text-center text-white py-5 mb-4">
+    <div class="container">
+        <h2 class="mb-3">Start Your Adventure Today</h2>
+        <a href="/register" class="btn btn-lg btn-light px-4">Get Started</a>
+    </div>
+</section>
