@@ -1,5 +1,11 @@
 const CampgroundModel = require("../models/campground.js");
 const {cloudinary} = require("../cloudinary");
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
+
+
+
+
 module.exports.index = async (req,res,next)=>{
     const campGrounds = await CampgroundModel.find({});
     res.render("campgrounds/index.ejs",{campGrounds});
@@ -20,7 +26,17 @@ module.exports.show = async (req,res,next)=>{
 }
 
 module.exports.addCampground =async(req,res,next)=>{
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    if (!geoData.features?.length) {
+        req.flash('error', 'Could not geocode that location. Please try again and enter a valid location.');
+        return res.redirect('/campgrounds/new');
+    }
+
+
+
     const campground = req.body.campground ;
+    campground.geometry = geoData.features[0].geometry;
+    campground.location = geoData.features[0].place_name;
     campground.images= req.files.map(obj => ({url:obj.path,filename:obj.filename}));
     
     const camp = new CampgroundModel(campground) ;
@@ -41,13 +57,21 @@ module.exports.edit = async (req,res,next)=>{
 }
 
 module.exports.update = async (req,res,next)=>{
+
+    const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+    if (!geoData.features?.length) {
+        req.flash('error', 'Could not geocode that location. Please try again and enter a valid location.');
+        return res.redirect(`/campgrounds/${req.params.id}/edit`);
+    }
     
     const campground = req.body.campground;
-    
+    campground.geometry = geoData.features[0].geometry;
+    campground.location = geoData.features[0].place_name;
 
     if(!campground) throw new ExpressError("Invalid Data" , 500);
     const c = await CampgroundModel.findByIdAndUpdate(req.params.id,{...campground});
     const images= req.files.map(obj => ({url:obj.path,filename:obj.filename}));
+   
     
     c.images.push(...images) ;
     if(req.body.deleteImages){
