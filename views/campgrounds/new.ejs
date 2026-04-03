@@ -1,0 +1,38 @@
+<%- layout("layouts/BoilerPlate.ejs") %>
+<div class="container ">
+    <h1 class="text-center">Create Campground</h1>
+    <div class="col-md-6 offset-md-3">
+        <form  action="/campgrounds" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <div>
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="campground[title]"required>
+                    <div class="valid-feedback">Looks nice</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <input class="form-control" type="text" id="description" name="campground[description]"required>
+                    <div class="valid-feedback">Looks nice</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="campground[location]"required>
+                    <div class="valid-feedback">Looks nice</div>
+                </div>
+                <input type="file" name="image" multiple>
+                <!-- <div class="mb-3">
+                    <label class="form-label" for="image">Image url</label>
+                    <input class="form-control" type="text" id="image" name="campground[image]"required>
+                    <div class="valid-feedback">Looks nice</div>
+                </div> -->
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <input class="form-control" type="number" id="price" name="campground[price]" required>
+                    <div class="valid-feedback">Looks nice</div>
+                </div>
+            </div>
+            <button class="btn btn-primary">ADD CAMPGROUND</button>
+        </form>
+    </div>
+
+</div>
