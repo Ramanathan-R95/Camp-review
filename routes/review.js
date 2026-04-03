@@ -7,7 +7,7 @@ const{ reviewValidate ,isLoggedIn,verifyReviewer} = require("../middleware.js") 
 
 
 
-router.post("/",wrapAsync (review.addReview)) ;
+router.post("/",reviewValidate,wrapAsync (review.addReview)) ;
 
 router.delete("/:reviewId", isLoggedIn,verifyReviewer,wrapAsync(review.delete) )
 
