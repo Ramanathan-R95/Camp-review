@@ -50,7 +50,7 @@ module.exports.campValidate = (req,res,next)=>{
 
     if(error){
         const msg = error.details.map(ele => ele.message).join(",") ;
-        next(new ExpressError(msg,400)) ;
+        return next(new ExpressError(msg,400)) ;
         
     }
     else next();
@@ -61,7 +61,7 @@ module.exports.reviewValidate = (req,res,next) =>{
     const {error} = reviewSchema.validate(req.body) ;
     if(error){
         const msg = error.details.map(ele => ele.message).join(",")
-        next(new ExpressError(msg,400)) ;
+        return next(new ExpressError(msg,400)) ;
     }
     else next() ;
 }
