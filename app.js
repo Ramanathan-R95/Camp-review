@@ -3,7 +3,7 @@ const express = require("express") ;
 const sanitizeV5 = require("./utilities/mongoSanitizeV5.js") ;
 
 const app = express();
-app.set("query parser","extended") ;
+app.set("query parser","extended");
 const Joi = require("joi");
 const path = require("path") ;
 const mongoose = require("mongoose");
@@ -23,7 +23,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const userRoutes = require("./routes/user.js");
 const mongoSanitize = require("express-mongo-sanitize");
-
+const helmet = require("helmet");
 
 mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     .then(()=>{
@@ -35,11 +35,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
     }) 
 
 sessionSchema = {
+    name:"session",
     secret : "thisisasecret",
     resave:false,
     saveUninitialized : true,
     cookie:{
         httpOnly : true ,
+        // secure:true,
         expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge : 1000 * 60 * 60 * 24 * 7
     }
@@ -55,6 +57,66 @@ app.use(sanitizeV5({replaceWith:"_" })) ;
 
 app.use(session(sessionSchema))
 app.use(flash());
+app.use(helmet())
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    // "https://api.tiles.mapbox.com/",
+    // "https://api.mapbox.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/", // add this
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    // "https://api.mapbox.com/",
+    // "https://api.tiles.mapbox.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/", // add this
+];
+const connectSrcUrls = [
+    // "https://api.mapbox.com/",
+    // "https://a.tiles.mapbox.com/",
+    // "https://b.tiles.mapbox.com/",
+    // "https://events.mapbox.com/",
+    "https://api.maptiler.com/", // add this
+];
+const fontSrcUrls = [];
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+
+      connectSrc: ["'self'", ...connectSrcUrls],
+
+      scriptSrc: ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
+
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+
+      workerSrc: ["'self'", "blob:"],
+
+      objectSrc: [],
+
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://res.cloudinary.com/dhnrl9ygq/",
+        "https://images.unsplash.com/",
+        "https://api.maptiler.com/",
+        "https://picsum.photos/",
+        "https://*.picsum.photos/",
+        "https://fastly.picsum.photos/"
+    ],
+      fontSrc: ["'self'", ...fontSrcUrls]
+    }
+  })
+);
 
 
 

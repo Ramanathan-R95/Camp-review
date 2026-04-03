@@ -7,7 +7,9 @@
             <div class="card-header"> Error  </div>
             <div class="card-body text-danger">
                 <h5 class="card-title"><%= err.message %> </h5>
-                <p class="card-text">  <%= err.stack %> </p>
+                <% if(process.env.NODE_ENV !== "production"){  %>
+                    <p class="card-text">  <%= err.stack %> </p>
+                    <% } %>
             </div>
         </div>
 
