@@ -1,4 +1,4 @@
-require("dotenv").config();
+// require("dotenv").config();
 const express = require("express") ;
 const sanitizeV5 = require("./utilities/mongoSanitizeV5.js") ;
 
@@ -24,8 +24,13 @@ const LocalStrategy = require("passport-local");
 const userRoutes = require("./routes/user.js");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+const {MongoStore} = require("connect-mongo");
 
-mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
+
+
+const dbUrl = process.env.db_url || "mongodb://127.0.0.1:27017/CampReview";
+const secret = process.env.secret || "thisisasecret";
+mongoose.connect(dbUrl)
     .then(()=>{
         console.log("db connected ");
     })
@@ -34,14 +39,26 @@ mongoose.connect("mongodb://127.0.0.1:27017/CampReview")
         console.log("db not connected ");
     }) 
 
+const mongoStore = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret
+    },
+    touchAfter: 24 * 60 * 60
+});
+mongoStore.on("error",function(e){
+    console.log("Session store error ",e);
+});
+
 sessionSchema = {
+    store: mongoStore,
     name:"session",
-    secret : "thisisasecret",
+    secret ,
     resave:false,
     saveUninitialized : true,
     cookie:{
         httpOnly : true ,
-        // secure:true,
+        secure:true,
         expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge : 1000 * 60 * 60 * 24 * 7
     }
@@ -162,7 +179,7 @@ app.use((err,req,res,next)=>{
     res.render("error.ejs",{err}) ;
 })
 
-
-app.listen(3000,()=>{
+const port = process.env.PORT || 3000 ;
+app.listen(port,()=>{
     console.log("Server Initiated") ;
 })
