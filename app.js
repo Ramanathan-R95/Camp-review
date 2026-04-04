@@ -3,6 +3,10 @@ const express = require("express") ;
 const sanitizeV5 = require("./utilities/mongoSanitizeV5.js") ;
 
 const app = express();
+if(process.env.NODE_ENV === "production"){
+    app.set("trust proxy", 1);
+}
+
 app.set("query parser","extended");
 const Joi = require("joi");
 const path = require("path") ;
@@ -58,7 +62,7 @@ sessionSchema = {
     saveUninitialized : true,
     cookie:{
         httpOnly : true ,
-        secure:true,
+        secure:process.env.NODE_ENV === "production",
         expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge : 1000 * 60 * 60 * 24 * 7
     }
